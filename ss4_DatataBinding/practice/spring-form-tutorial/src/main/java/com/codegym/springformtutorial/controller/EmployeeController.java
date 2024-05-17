@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
-    @RequestMapping(value = "/showForm", method = RequestMethod.GET)
+    @RequestMapping(value = "/showForm")
     public String showForm(ModelMap model) {
         model.addAttribute("employee", new Employee());
         return "employee/create";
