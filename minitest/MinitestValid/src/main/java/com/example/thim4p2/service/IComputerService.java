@@ -14,4 +14,5 @@ public interface IComputerService {
     Computer info(int id);
 
     Page<Computer> search(String name, Pageable pageable);
+    boolean  isProductNameExists(String name);
 }

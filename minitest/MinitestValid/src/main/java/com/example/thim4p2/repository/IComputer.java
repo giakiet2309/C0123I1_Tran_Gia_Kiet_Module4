@@ -11,7 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 public interface IComputer extends JpaRepository<Computer, Integer> {
+    @Query(value = "SELECT COUNT(*) FROM computer WHERE code_computer = :code", nativeQuery = true)
+    Long  countByCode(@Param("code") String code);
     @Query(value = "select * from computer where name_computer like :search ", nativeQuery = true)
     Page<Computer> searchByOwn(@Param("search") String search, Pageable pageable);
+
 
 }
