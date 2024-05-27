@@ -51,7 +51,7 @@ public class ComputerService implements IComputerService {
     }
 
     @Override
-    public boolean isProductNameExists(String name) {
+    public boolean isComputerNameExists(String name) {
         return iComputer.countByCode(name) > 0;
     }
 

@@ -60,7 +60,7 @@ public class ComputerController {
             model.addAttribute("typeComputer", typeComputer);
             return "/add";
         } else {
-            if (computerService.isProductNameExists(computerDTO.getCodeComputer())) {
+            if (computerService.isComputerNameExists(computerDTO.getCodeComputer())) {
                 throw new DuplicateProductNameException("Mã máy tính '" + computerDTO.getCodeComputer() + "' đã tồn tại");
             }
             Computer computer = new Computer();
