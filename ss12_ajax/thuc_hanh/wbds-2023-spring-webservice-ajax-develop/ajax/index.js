@@ -1,12 +1,12 @@
 function addNewSmartPhone() {
     //lấy dữ liệu từ form html
-    let producer = $('#producer').val();
-    let model = $('#model').val();
-    let price = $('#price').val();
+    let producer = document.getElementById("producer").value;
+    let model = document.getElementById("model").value;
+    let price = +document.getElementById("price").value;
     let newSmartphone = {
-        producer: producer,
-        model: model,
-        price: price
+        "producer": producer,
+        "model": model,
+        "price": price,
     };
     // gọi phương thức ajax
     $.ajax({
@@ -19,7 +19,9 @@ function addNewSmartPhone() {
         //tên API
         url: "http://localhost:8080/api/smartphones",
         //xử lý khi thành công
-        success: successHandler
+        success: function () {
+            successHandler()
+        }
 
     });
     //chặn sự kiện mặc định của thẻ
@@ -34,21 +36,34 @@ function successHandler() {
         //xử lý khi thành công
         success: function (data) {
             // hiển thị danh sách ở đây
-            let content = '    <table id="display-list"  border="1"><tr>\n' +
-                '        <th>Producer</td>\n' +
-                '        <th>Model</td>\n' +
-                '        <th>Price</td>\n' +
-                '        <th>Delete</td>\n' +
-                '    </tr>';
-            for (let i = 0; i < data.length; i++) {
-                content += getSmartphone(data[i]);
+            if (data != null || data.length > 0) {
+                let content = `            <table id="display-list" border="1">
+                <tr>
+                 
+                    <th>Producer</th>
+                    <th>Model</th>
+                    <th>Price</th>
+                    <th>Delete</th>
+                </tr>`;
+                for (let i = 0; i < data.length; i++) {
+                    content += `<tr>
+       
+        <td>${data[i].producer}</td>
+        <td>${data[i].model}</td>
+        <td>${data[i].price}</td>
+        <td><a href="#" onclick="deleteSmartphone(${data[i].id})">Delete</a></td>
+    </tr>`;
+                }
+                content += "</table>"
+                document.getElementById('smartphoneList').innerHTML = content;
+                document.getElementById('smartphoneList').style.display = "block";
+                document.getElementById('add-smartphone').style.display = "none";
+                document.getElementById('display-create').style.display = "block";
+                document.getElementById('title').style.display = "block";
+            } else {
+                document.getElementById('smartphoneList').innerHTML = "khong co du lieu";
             }
-            content += "</table>"
-            document.getElementById('smartphoneList').innerHTML = content;
-            document.getElementById('smartphoneList').style.display = "block";
-            document.getElementById('add-smartphone').style.display = "none";
-            document.getElementById('display-create').style.display = "block";
-            document.getElementById('title').style.display = "block";
+
         }
     });
 }
@@ -60,17 +75,14 @@ function displayFormCreate() {
     document.getElementById('title').style.display = "none";
 }
 
-function getSmartphone(smartphone) {
-    return `<tr><td >${smartphone.producer}</td><td >${smartphone.model}</td><td >${smartphone.price}</td>` +
-        `<td class="btn"><button class="deleteSmartphone" onclick="deleteSmartphone(${smartphone.id})">Delete</button></td></tr>`;
-}
-
 function deleteSmartphone(id) {
     $.ajax({
         type: "DELETE",
         //tên API
         url: `http://localhost:8080/api/smartphones/${id}`,
         //xử lý khi thành công
-        success: successHandler
+        success: function () {
+            successHandler()
+        }
     });
 }
