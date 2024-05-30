@@ -39,7 +39,6 @@ function successHandler() {
             if (data != null || data.length > 0) {
                 let content = `            <table id="display-list" border="1">
                 <tr>
-                 
                     <th>Producer</th>
                     <th>Model</th>
                     <th>Price</th>
